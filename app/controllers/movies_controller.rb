@@ -9,7 +9,7 @@ class MoviesController < ApplicationController
   def index
     @all_ratings = Movie.all_ratings
     @ratings_to_show = params.has_key?('ratings') ? params[:ratings].keys : Array.new
-    @movies = Movie.with_ratings(@ratings_to_show)
+    @movies = Movie.with_ratings(params[:ratings])
   end
 
   def new
