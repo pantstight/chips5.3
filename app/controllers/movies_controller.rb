@@ -10,6 +10,16 @@ class MoviesController < ApplicationController
     @all_ratings = Movie.all_ratings
     @ratings_to_show = params.has_key?('ratings') ? params[:ratings].keys : Array.new
     @movies = Movie.with_ratings(@ratings_to_show)
+    @title_class = 'text-primary'
+    @release_date_class = 'text-primary'
+    if params.has_key?('order_by_title')
+      @title_class = 'hilite bg-warning'
+      @movies.order(:title)
+    end
+    if params.has_key?('order_by_release_date')
+      @release_date_class = 'hilite bg-warning'
+      @movies.order(:release_date)
+    end
   end
 
   def new
