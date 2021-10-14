@@ -5,7 +5,6 @@ class Movie < ActiveRecord::Base
   end
   
   def self.with_ratings(ratings_list, order_attr)
-    movies = ratings_list.empty? ? Movie.all : Movie.where(:rating => ratings_list.map(&:upcase))
-    order_attr.nil? ? movies : movies.order(order_attr)
+    Movie.where(ratings_list.empty? ? nil : :rating => ratings_list.map(&:upcase)).order(order_attr)
   end
 end
