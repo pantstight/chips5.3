@@ -7,11 +7,14 @@ class MoviesController < ApplicationController
   end
 
   def index
+    if session.has_key?('rating')
     @all_ratings = Movie.all_ratings
     @ratings_to_show = params.has_key?('ratings') ? params[:ratings].keys : Array.new
     @movies = Movie.with_ratings(@ratings_to_show, params[:order_by])
     @title_class = params[:order_by] == 'title' ? 'hilite bg-warning' : ''
     @release_date_class = params[:order_by] == 'release_date' ? 'hilite bg-warning' : ''
+    session[:filter] = params[:ratings]
+    session[:sorting] = params[:order_by]
   end
 
   def new
