@@ -10,14 +10,14 @@ class MoviesController < ApplicationController
     if !params.key?(:ratings) && !params.key?(:order_by)
       redirect_to movies_path('ratings' => session[:ratings], 'order_by' => session[:order_by])
     end
-    params[:order_by] ||= session[:order_by]
+    @order_by = params.key?(:order_by) ? params[:order_by] : session[:order_by]
     @all_ratings = Movie.all_ratings
     @ratings_to_show = params[:ratings] ? params[:ratings].keys : []
-    @movies = Movie.with_ratings(@ratings_to_show, params[:order_by])
-    @title_class = params[:order_by] == 'title' ? 'hilite bg-warning' : ''
-    @release_date_class = params[:order_by] == 'release_date' ? 'hilite bg-warning' : ''
+    @movies = Movie.with_ratings(@ratings_to_show, @order_by)
+    @title_class = @order_by == 'title' ? 'hilite bg-warning' : ''
+    @release_date_class = @order_by == 'release_date' ? 'hilite bg-warning' : ''
     session[:ratings] = params[:ratings]
-    session[:order_by] = params[:order_by]
+    session[:order_by] = @order_by
   end
 
   def new
