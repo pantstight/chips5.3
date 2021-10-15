@@ -17,7 +17,7 @@ class MoviesController < ApplicationController
       end
     @ratings_to_show = 
       if params.key? 'ratings'
-        params[:ratings].key
+        params[:ratings].keys
       elsif !params.key?('ratings') && session.key?('ratings')
         session[:ratings]
       else 
