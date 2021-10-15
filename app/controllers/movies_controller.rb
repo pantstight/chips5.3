@@ -9,9 +9,8 @@ class MoviesController < ApplicationController
   def index
     if !params.key?(:ratings) && !params.key?(:order_by)
       redirect_to movies_path('ratings' => session[:ratings], 'order_by' => session[:order_by])
-    elsif !params.key?(:order_by)
-      redirect_to movies_path('ratings' => params[:ratings], 'order_by' => session[:order_by])
     end
+    params[:order_by] ||= session[:order_by]
     @all_ratings = Movie.all_ratings
     @ratings_to_show = params[:ratings] ? params[:ratings].keys : []
     @movies = Movie.with_ratings(@ratings_to_show, params[:order_by])
