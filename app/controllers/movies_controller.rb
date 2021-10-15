@@ -9,10 +9,11 @@ class MoviesController < ApplicationController
   def index
     order_by = 
       if params.key? 'order_by'
-        params.key?('order_by') ? 
+        params[:order_by]
       elsif session.key? 'order_by'
         session[:order_by]
       else
+        ''
       end
     @ratings_to_show = 
       if params.key? 'ratings'
