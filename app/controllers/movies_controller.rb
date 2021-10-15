@@ -7,17 +7,29 @@ class MoviesController < ApplicationController
   end
 
   def index
-    order_by = params.key?('order_by') ? params[:order_by] : session[:order_by]
-    @ratings_to_show = params.key?('ratings') ? params[:ratings].keys : Array.new
-    @ratings_to_show += session[:ratings] if !params.key?('ratings') && session.key?('ratings')
+    order_by = 
+      if params.key? 'order_by'
+        params.key?('order_by') ? 
+      elsif session.key? 'order_by'
+        session[:order_by]
+      else
+      end
+    @ratings_to_show = 
+      if params.key? 'ratings'
+        params[:ratings]
+      elsif !params.key?('ratings') && session.key?('ratings')
+        session[:ratings]
+      else 
+        Array.new
+      end
     @all_ratings = Movie.all_ratings
     @movies = Movie.with_ratings(@ratings_to_show, order_by)
     @title_class = 'hilite bg-warning' if order_by == 'title'
     @release_date_class = 'hilite bg-warning' if order_by == 'release_date'
-    session[:ratings] = @ratings_to_show if !@ratings_to_show.empty?
-    session[:order_by] = order_by if order_by
+    session[:ratings] = @ratings_to_show
+    session[:order_by] = order_by
     if !params.key?('ratings') && !params.key?('order_by') && !session.key?('ratings') && !session.key?('order_by')
-      redirect_to movies_path('ratings' => Hash[@all_ratings.map{|x| [x, 1]}])
+      redirect_to movies_path('ratings' => Hash[@all_ratings.map{|x| [x, 1]}], 'order_by' => '')
       return
     end
   end
