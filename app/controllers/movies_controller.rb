@@ -26,9 +26,6 @@ class MoviesController < ApplicationController
       elsif order_by
         redirect_to movies_path('order_by' => order_by)
         return
-      else
-        redirect_to movies_path('ratings' => Hash[@all_ratings.map{|x| [x, 1]}])
-        return
       end
     end
   end
