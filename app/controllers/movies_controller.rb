@@ -14,8 +14,8 @@ class MoviesController < ApplicationController
     @movies = Movie.with_ratings(@ratings_to_show, params[:order_by])
     @title_class = params[:order_by] == 'title' ? 'hilite bg-warning' : ''
     @release_date_class = params[:order_by] == 'release_date' ? 'hilite bg-warning' : ''
-    session[:ratings] ||= params[:ratings]
-    session[:order_by] ||= params[:order_by]
+    session[:ratings] = params[:ratings] if params[:ratings]
+    session[:order_by] = params[:order_by] if params[:order_by]
   end
 
   def new
