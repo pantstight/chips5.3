@@ -19,17 +19,6 @@ class MoviesController < ApplicationController
     if !params.key?('ratings') && !params.key?('order_by') && !session.key?('ratings') && !session.key?('order_by')
       redirect_to movies_path('ratings' => Hash[@all_ratings.map{|x| [x, 1]}])
       return
-    elsif !params.key?('order_by')
-      if session.key?('ratings') && session.key?('order_by')
-        redirect_to movies_path('ratings' => Hash[@ratings_to_show.map{|x| [x, 1]}], 'order_by' => order_by)
-        return
-      elsif session.key?('ratings')
-        redirect_to movies_path('ratings' => Hash[@ratings_to_show.map{|x| [x, 1]}])
-        return
-      elsif session.key?('order_by')
-        redirect_to movies_path('order_by' => order_by)
-        return
-      end
     end
   end
 
