@@ -9,10 +9,9 @@ class MoviesController < ApplicationController
   def index
     @all_ratings = Movie.all_ratings
     @ratings_to_show = params[:ratings] ? params[:ratings].keys : []
-    @order_by = params[:order_by]
-    @movies = Movie.with_ratings(@ratings_to_show, @order_by)
-    @title_class = @order_by == 'title' ? 'hilite bg-warning' : ''
-    @release_date_class = @order_by == 'release_date' ? 'hilite bg-warning' : ''
+    @movies = Movie.with_ratings(@ratings_to_show, params[:order_by])
+    @title_class = params[:order_by] == 'title' ? 'hilite bg-warning' : ''
+    @release_date_class = params[:order_by] == 'release_date' ? 'hilite bg-warning' : ''
   end
 
   def new
