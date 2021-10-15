@@ -11,6 +11,7 @@ class MoviesController < ApplicationController
     @ratings_to_show = params.key?('ratings') ? params[:ratings].keys : []
     if session.key? 'ratings'
       @ratings_to_show += session[:ratings]
+    end
     @all_ratings = Movie.all_ratings
     @movies = Movie.with_ratings(@ratings_to_show, order_by)
     @title_class = 'hilite bg-warning' if order_by == 'title'
