@@ -7,11 +7,15 @@ class MoviesController < ApplicationController
   end
 
   def index
+    unless params[:order_by]
+      redirect_to movies_path('ratings' => params[:ratings], 'order_by': session[:order_by])
+    end
     @all_ratings = Movie.all_ratings
     @ratings_to_show = params[:ratings] ? params[:ratings].keys : []
     @movies = Movie.with_ratings(@ratings_to_show, params[:order_by])
     @title_class = params[:order_by] == 'title' ? 'hilite bg-warning' : ''
     @release_date_class = params[:order_by] == 'release_date' ? 'hilite bg-warning' : ''
+    session[:order_by] = params[:order_by] if params[:order_by]
   end
 
   def new
