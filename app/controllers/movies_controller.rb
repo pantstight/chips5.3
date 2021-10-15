@@ -29,12 +29,13 @@ class MoviesController < ApplicationController
     @release_date_class = 'hilite bg-warning' if order_by == 'release_date'
     session[:ratings] = @ratings_to_show
     session[:order_by] = order_by
-    if !params.key?('ratings') && !params.key?('order_by')
-      if !session.key?('ratings') && !session.key?('order_by')
+    if !params.key?('order_by')
+      if !params.key?('ratings') && !session.key?('ratings') && !session.key?('order_by')
         redirect_to movies_path('ratings' => Hash[@all_ratings.map{|x| [x, 1]}], 'order_by' => '')
         return
       else
-        
+        redirect_to movies_path('ratings' => Hash[@ratings_to_show.map{|x| [x, 1]}], 'order_by' => order_by)
+        return
       end
     end
   end
