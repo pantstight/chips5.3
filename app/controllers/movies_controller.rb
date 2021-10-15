@@ -14,7 +14,7 @@ class MoviesController < ApplicationController
     @movies = Movie.with_ratings(@ratings_to_show, order_by)
     @title_class = 'hilite bg-warning' if order_by == 'title'
     @release_date_class = 'hilite bg-warning' if order_by == 'release_date'
-    session[:ratings] = @ratings_to_show unless @ratings_to_show.empty?
+    session[:ratings] = @ratings_to_show if !@ratings_to_show.empty?
     session[:order_by] = order_by if order_by
     if !params.key?('ratings') && !params.key?('order_by') && !session.key?('ratings') && !session.key?('order_by')
       redirect_to movies_path('ratings' => Hash[@all_ratings.map{|x| [x, 1]}])
