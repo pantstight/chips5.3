@@ -30,7 +30,7 @@ class MoviesController < ApplicationController
     session[:ratings] = @ratings_to_show
     session[:order_by] = order_by
     if !params.key?('order_by')
-      if !params.key?('ratings') && !session.key?('ratings') && !session.key?('order_by')
+      if !session.key?('ratings') && !session.key?('order_by')
         redirect_to movies_path('ratings' => Hash[@all_ratings.map{|x| [x, 1]}], 'order_by' => '')
         return
       else
