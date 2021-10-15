@@ -7,6 +7,9 @@ class MoviesController < ApplicationController
   end
 
   def index
+    if !params.key?('ratings') && !params.key?('order_by') && !session.key?('ratings') && !session.key?('order_by')
+      redirect_to movies_path('ratings' => Hash[@all_ratings.map{|x| [x, 1]}], 'order_by' => '')
+    return
     order_by = 
       if params.key? 'order_by'
         params[:order_by]
@@ -30,13 +33,8 @@ class MoviesController < ApplicationController
     session[:ratings] = @ratings_to_show
     session[:order_by] = order_by
     if !params.key?('order_by')
-      if !session.key?('ratings') && !session.key?('order_by')
-        redirect_to movies_path('ratings' => Hash[@all_ratings.map{|x| [x, 1]}], 'order_by' => '')
-        return
-      else
-        redirect_to movies_path('ratings' => Hash[@ratings_to_show.map{|x| [x, 1]}], 'order_by' => order_by)
-        return
-      end
+      redirect_to movies_path('ratings' => Hash[@ratings_to_show.map{|x| [x, 1]}], 'order_by' => order_by)
+      return
     end
   end
 
