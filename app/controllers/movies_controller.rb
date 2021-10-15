@@ -7,8 +7,8 @@ class MoviesController < ApplicationController
   end
 
   def index
-    order_by = params.key? 'order_by' ? params[:order_by] : session[:order_by]
-    @ratings_to_show = params.key? 'ratings' ? params[:ratings].keys : Array.new
+    order_by = params.key?('order_by') ? params[:order_by] : session[:order_by]
+    @ratings_to_show = params.key?('ratings') ? params[:ratings].keys : Array.new
     @ratings_to_show += session[:ratings] if session.key? 'ratings'
     @all_ratings = Movie.all_ratings
     @movies = Movie.with_ratings(@ratings_to_show, order_by)
