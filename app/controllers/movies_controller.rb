@@ -8,7 +8,7 @@ class MoviesController < ApplicationController
 
   def index
     if !params.key?('ratings') && !params.key?('order_by') && !session.key?('ratings') && !session.key?('order_by')
-      redirect_to movies_path('ratings' => Hash[@all_ratings.map{|x| [x, 1]}], 'order_by' => '')
+      redirect_to movies_path('ratings' => Hash[Movie.all_ratings.map{|x| [x, 1]}], 'order_by' => '')
       return
     end
     order_by = 
