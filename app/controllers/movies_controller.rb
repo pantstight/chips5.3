@@ -9,7 +9,7 @@ class MoviesController < ApplicationController
   def index
     order_by = params.key?('order_by') ? params[:order_by] : session[:order_by]
     @ratings_to_show = params.key?('ratings') ? params[:ratings].keys : Array.new
-    @ratings_to_show += session[:ratings] if !params.key?('order_by') && session.key?('ratings') 
+    @ratings_to_show += session[:ratings] unless params.key?('ratings') || params.key?('order_by')
     @all_ratings = Movie.all_ratings
     @movies = Movie.with_ratings(@ratings_to_show, order_by)
     @title_class = 'hilite bg-warning' if order_by == 'title'
